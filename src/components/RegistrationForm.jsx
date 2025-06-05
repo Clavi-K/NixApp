@@ -2,12 +2,18 @@
 
 import { useState } from "react";
 import NextLink from "next/link"
-import { Box, Button, TextField, Typography, Paper, Stack, Link, CircularProgress, } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper, Stack, Link, CircularProgress, Snackbar, Slide, Alert, SnackbarContent, useTheme } from '@mui/material';
+
+import Loading from "./loading";
+import { registerUser } from "@/app/actions"
 
 export default function RegistrationForm() {
 
+    const theme = useTheme()
+
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState({})
+    const [apiMsg, setApiMsg] = useState("")
     const [form, setForm] = useState({
         name: "",
         surname: "",
@@ -83,17 +89,20 @@ export default function RegistrationForm() {
         try {
 
             setLoading(true)
-            const res = await fetch("http://localhost:8080/user/register", {
-                method: "POST",
-                body: {
-                    name: form.name,
-                    surname: form.surname,
-                    email: form.email,
-                    password: form.password
-                }
-            })
+            const userRes = await registerUser(form)
+            console.log(userRes)
+            // const res = await fetch("http://localhost:8080/user/register", {
+            //     method: "POST",
+            //     body: {
+            //         name: form.name,
+            //         surname: form.surname,
+            //         email: form.email,
+            //         password: form.password
+            //     }
+            // })
             setLoading(false)
-            
+            setApiMsg(userRes)
+
         } catch (e) {
             setLoading(false)
             console.error(e.response.data)
@@ -102,102 +111,108 @@ export default function RegistrationForm() {
 
     }
 
-    return (<Box
-        component="section"
-        sx={{
-            minHeight: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bgcolor: 'background.default',
-            px: 2,
-        }}
-    >
-        <Paper
-            elevation={3}
-            sx={{
-                p: 4,
-                maxWidth: 400,
-                width: '100%',
-                borderRadius: 3,
-                bgcolor: 'background.paper',
-                display: "flex",
-                flexDirection: "column",
-            }}
-        >
-            <Typography variant="h5" component="h1" sx={{ mb: 2, mt: -1 }} color="primary">Create Account</Typography>
-            <form onSubmit={formSubmit}>
-                <Stack spacing={2}>
-                    <TextField
-                        id="name"
-                        label="Name"
-                        variant="outlined"
-                        fullWidth
-                        autoComplete="name"
-                        value={form.name}
-                        onChange={handleChange}
-                        error={!!errors.name}
-                        helperText={errors.name}
-                    />
-                    <TextField
-                        id="surname"
-                        label="Surname"
-                        fullWidth
-                        autoComplete="lastname"
-                        value={form.surname}
-                        onChange={handleChange}
-                        error={!!errors.surname}
-                        helperText={errors.surname}
-                    />
-                    <TextField
-                        id="email"
-                        label="Email"
-                        type="email"
-                        fullWidth
-                        autoComplete="email"
-                        value={form.email}
-                        onChange={handleChange}
-                        error={!!errors.email}
-                        helperText={errors.email}
-                    />
-                    <TextField
-                        id="password"
-                        label="Password"
-                        type="password"
-                        fullWidth
-                        autoComplete="new-password"
-                        value={form.password}
-                        onChange={handleChange}
-                        error={!!errors.password}
-                        helperText={
-                            Array.isArray(errors.password) ? errors.password.map((e, idx) => { return (<span key={idx}>{e}<br /></span>) }) : ""
-                        }
-                    />
-                    <TextField
-                        id="repeatPassword"
-                        label="Repeat Password"
-                        type="password"
-                        fullWidth
-                        autoComplete="repeat-password"
-                        value={form.repeatPassword}
-                        onChange={handleChange}
-                        error={!!errors.repeatPassword}
-                        helperText={errors.repeatPassword}
-                    />
+    return (
+        <>
+            <Loading open={loading} />
+            <Box
+                component="section"
+                sx={{
+                    minHeight: '100vh',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    bgcolor: 'background.default',
+                    px: 2,
+                }}
+            >
+                <Paper
+                    elevation={3}
+                    sx={{
+                        p: 4,
+                        maxWidth: 400,
+                        width: '100%',
+                        borderRadius: 3,
+                        bgcolor: 'background.paper',
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
+                    <Typography variant="h5" component="h1" sx={{ mb: 2, mt: -1 }} color="primary">Create Account</Typography>
+                    <form onSubmit={formSubmit}>
+                        <Stack spacing={2}>
+                            <TextField
+                                id="name"
+                                label="Name"
+                                fullWidth
+                                autoComplete="name"
+                                value={form.name}
+                                onChange={handleChange}
+                                error={!!errors.name}
+                                helperText={errors.name}
+                            />
+                            <TextField
+                                id="surname"
+                                label="Surname"
+                                fullWidth
+                                autoComplete="lastname"
+                                value={form.surname}
+                                onChange={handleChange}
+                                error={!!errors.surname}
+                                helperText={errors.surname}
+                            />
+                            <TextField
+                                id="email"
+                                label="Email"
+                                type="email"
+                                fullWidth
+                                autoComplete="email"
+                                value={form.email}
+                                onChange={handleChange}
+                                error={!!errors.email}
+                                helperText={errors.email}
+                            />
+                            <TextField
+                                id="password"
+                                label="Password"
+                                type="password"
+                                fullWidth
+                                autoComplete="new-password"
+                                value={form.password}
+                                onChange={handleChange}
+                                error={!!errors.password}
+                                helperText={
+                                    Array.isArray(errors.password) ? errors.password.map((e, idx) => { return (<span key={idx}>{e}<br /></span>) }) : ""
+                                }
+                            />
+                            <TextField
+                                id="repeatPassword"
+                                label="Repeat Password"
+                                type="password"
+                                fullWidth
+                                autoComplete="repeat-password"
+                                value={form.repeatPassword}
+                                onChange={handleChange}
+                                error={!!errors.repeatPassword}
+                                helperText={errors.repeatPassword}
+                            />
 
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        size="large"
-                        sx={{ border: 2, textTransform: "none" }}
-                        type="submit"
-                    >
-                        <Typography>Register</Typography>
-                        {loading && <CircularProgress />}
-                    </Button>
-                </Stack>
-            </form>
-            <Typography variant='body2' color="#8c8c8c" alignSelf="end" sx={{ mt: 3, mb: -2 }}>Already have an account? <Link component={NextLink} color="secondary" href="/">Log in</Link></Typography>
-        </Paper>
-    </Box>)
+                            <Button
+                                color="primary"
+                                size="large"
+                                sx={{ border: 2, textTransform: "none" }}
+                                type="submit"
+                            >
+                                <Typography>Register</Typography>
+                            </Button>
+                        </Stack>
+                    </form>
+                    <Typography variant='body2' color={theme.palette.text.subtle} alignSelf="end" sx={{ mt: 3, mb: -2 }}>Already have an account? <Link component={NextLink} color="secondary" href="/">Log in</Link></Typography>
+                </Paper>
+                <Slide direction="up" in={apiMsg != ""} mountOnEnter unmountOnExit>
+                    <Snackbar open={apiMsg != ""} color="primary" autoHideDuration={4000} onClose={() => setApiMsg("")}>
+                        <SnackbarContent sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.text.light }} message={apiMsg} />
+                    </Snackbar>
+                </Slide>
+            </Box>
+        </>)
 }

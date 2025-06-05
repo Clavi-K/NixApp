@@ -2,6 +2,7 @@ import { Box, Container, Typography, ThemeProvider } from '@mui/material';
 import theme from '@/theme/theme';
 
 export default function Home() {
+
   return (
     <ThemeProvider theme={theme}>
       <Container maxWidth="lg">
