@@ -90,7 +90,6 @@ export default function RegistrationForm() {
 
             setLoading(true)
             const userRes = await registerUser(form)
-            console.log(userRes)
             // const res = await fetch("http://localhost:8080/user/register", {
             //     method: "POST",
             //     body: {
