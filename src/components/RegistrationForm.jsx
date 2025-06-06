@@ -1,5 +1,6 @@
 "use client"
 
+import axios from "axios"
 import { useState } from "react";
 import NextLink from "next/link"
 import { Box, Button, TextField, Typography, Paper, Stack, Link, CircularProgress, Snackbar, Slide, Alert, SnackbarContent, useTheme } from '@mui/material';
@@ -13,7 +14,7 @@ export default function RegistrationForm() {
 
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState({})
-    const [apiMsg, setApiMsg] = useState("")
+    const [snackbar, setSnackbar] = useState({ visible: false, msg: "", color: "primary" })
     const [form, setForm] = useState({
         name: "",
         surname: "",
@@ -26,6 +27,14 @@ export default function RegistrationForm() {
         const { id, value } = e.target
         setForm(prev => ({ ...prev, [id]: value }))
         setErrors(prev => ({ ...prev, [id]: "" }))
+    }
+
+    const handleSnackbar = (props) => {
+        setSnackbar(prev => ({ ...prev, ...props }))
+    }
+
+    const onSnackbarClose = () => {
+        handleSnackbar({ color: "primary", visible: false, msg: "" })
     }
 
     const isValidPassword = (pass) => {
@@ -51,7 +60,6 @@ export default function RegistrationForm() {
         if (pass.length < 8) errorMsgs.push("Password must be at least 8 characters long")
 
         return errorMsgs
-
     }
 
     const formValidation = () => {
@@ -86,27 +94,17 @@ export default function RegistrationForm() {
             return
         }
 
-        try {
+        setLoading(true)
+        const userRes = await registerUser(form)
+        setLoading(false)
 
-            setLoading(true)
-            const userRes = await registerUser(form)
-            // const res = await fetch("http://localhost:8080/user/register", {
-            //     method: "POST",
-            //     body: {
-            //         name: form.name,
-            //         surname: form.surname,
-            //         email: form.email,
-            //         password: form.password
-            //     }
-            // })
-            setLoading(false)
-            setApiMsg(userRes)
+        if (userRes.accessToken) {
 
-        } catch (e) {
-            setLoading(false)
-            console.error(e.response.data)
+            localStorage.setItem("nixAccessToken", userRes.accessToken)
+            setSnackbar({ visible: true, color: "success", msg: "User successfully created!" })
+        } else if (userRes.error) {
+            setSnackbar({ visible: true, color: "primary", msg: userRes.error })
         }
-
 
     }
 
@@ -207,9 +205,9 @@ export default function RegistrationForm() {
                     </form>
                     <Typography variant='body2' color={theme.palette.text.subtle} alignSelf="end" sx={{ mt: 3, mb: -2 }}>Already have an account? <Link component={NextLink} color="secondary" href="/">Log in</Link></Typography>
                 </Paper>
-                <Slide direction="up" in={apiMsg != ""} mountOnEnter unmountOnExit>
-                    <Snackbar open={apiMsg != ""} color="primary" autoHideDuration={4000} onClose={() => setApiMsg("")}>
-                        <SnackbarContent sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.text.light }} message={apiMsg} />
+                <Slide direction="up" in={snackbar.visible} mountOnEnter={true} unmountOnExit={true}>
+                    <Snackbar open={snackbar.visible} color="primary" autoHideDuration={4000} onClose={onSnackbarClose}>
+                        <SnackbarContent sx={{ backgroundColor: theme.palette[snackbar.color].main, color: theme.palette.text.light }} message={snackbar.msg} />
                     </Snackbar>
                 </Slide>
             </Box>
