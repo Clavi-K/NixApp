@@ -3,7 +3,7 @@
 import axios from "axios"
 import { useState } from "react";
 import NextLink from "next/link"
-import { Box, Button, TextField, Typography, Paper, Stack, Link, CircularProgress, Snackbar, Slide, Alert, SnackbarContent, useTheme } from '@mui/material';
+import { Box, Button, TextField, Typography, Paper, Stack, Link, Snackbar, Slide, Alert, SnackbarContent, useTheme } from '@mui/material';
 
 import Loading from "./loading";
 import { registerUser } from "@/app/actions"
@@ -95,6 +95,7 @@ export default function RegistrationForm() {
         }
 
         setLoading(true)
+        delete form.repeatPassword
         const userRes = await registerUser(form)
         setLoading(false)
 
@@ -112,7 +113,6 @@ export default function RegistrationForm() {
         <>
             <Loading open={loading} />
             <Box
-                component="section"
                 sx={{
                     minHeight: '100vh',
                     display: 'flex',
@@ -203,7 +203,7 @@ export default function RegistrationForm() {
                             </Button>
                         </Stack>
                     </form>
-                    <Typography variant='body2' color={theme.palette.text.subtle} alignSelf="end" sx={{ mt: 3, mb: -2 }}>Already have an account? <Link component={NextLink} color="secondary" href="/">Log in</Link></Typography>
+                    <Typography variant='body2' color={theme.palette.text.subtle} alignSelf="end" sx={{ mt: 3, mb: -2 }}>Already have an account? <Link component={NextLink} color="secondary" href="/user/login">Log in</Link></Typography>
                 </Paper>
                 <Slide direction="up" in={snackbar.visible} mountOnEnter={true} unmountOnExit={true}>
                     <Snackbar open={snackbar.visible} color="primary" autoHideDuration={4000} onClose={onSnackbarClose}>
