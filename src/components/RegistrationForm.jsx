@@ -3,6 +3,7 @@
 import axios from "axios"
 import { useState } from "react";
 import NextLink from "next/link"
+import { redirect } from "next/navigation";
 import { Box, Button, TextField, Typography, Paper, Stack, Link, Snackbar, Slide, Alert, SnackbarContent, useTheme } from '@mui/material';
 
 import Loading from "./loading";
@@ -10,11 +11,21 @@ import { registerUser } from "@/app/actions"
 
 export default function RegistrationForm() {
 
+    if (localStorage.getItem("nixAccessToken")) {
+        redirect("/")
+    }
+
     const theme = useTheme()
 
     const [loading, setLoading] = useState(false)
     const [errors, setErrors] = useState({})
-    const [snackbar, setSnackbar] = useState({ visible: false, msg: "", color: "primary" })
+
+    const [snackbar, setSnackbar] = useState({
+        visible: false,
+        msg: "",
+        color: "primary"
+    })
+
     const [form, setForm] = useState({
         name: "",
         surname: "",
@@ -66,14 +77,14 @@ export default function RegistrationForm() {
         const newErrors = {}
         const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-        if (!form.name.trim()) newErrors.name = "Insert a valid first name"
-        if (!form.surname.trim()) newErrors.surname = "Insert a valid last name"
+        if (!form.name || !form.name.trim()) newErrors.name = "Insert a valid first name"
+        if (!form.surname || !form.surname.trim()) newErrors.surname = "Insert a valid last name"
 
-        if (!form.email.trim() || !form.email.match(emailRegex)) newErrors.email = "Insert a valid email"
+        if (!form.email || !form.email.trim() || !form.email.match(emailRegex)) newErrors.email = "Insert a valid email"
 
         let passwordErrorMsgs = isValidPassword(form.password)
 
-        if (!form.password) {
+        if (!form.password || !form.password.trim()) {
             newErrors.password = ["Insert a valid password"]
         } else {
             if (passwordErrorMsgs.length != 0) newErrors.password = passwordErrorMsgs
@@ -94,13 +105,13 @@ export default function RegistrationForm() {
             return
         }
 
-        setLoading(true)
         delete form.repeatPassword
+
+        setLoading(true)
         const userRes = await registerUser(form)
         setLoading(false)
 
         if (userRes.accessToken) {
-
             localStorage.setItem("nixAccessToken", userRes.accessToken)
             setSnackbar({ visible: true, color: "success", msg: "User successfully created!" })
         } else if (userRes.error) {
