@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: night --default;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CUSTOM CSS */
+
+.bg-navbar {
+  background-color: #05080F;
+}
+
+/* CUSTOM CSS */
