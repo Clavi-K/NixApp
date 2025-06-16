@@ -19,8 +19,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${geistMono.className}`}>
         <AuthProvider>
-            <Navbar />
-            {children}
+          <Navbar />
+          {children}
         </AuthProvider>
       </body>
     </html >

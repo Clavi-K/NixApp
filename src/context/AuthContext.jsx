@@ -7,7 +7,9 @@ import { jwtDecode } from 'jwt-decode';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+
     const [user, setUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const userToken = localStorage.getItem("nixAccessToken")
@@ -15,11 +17,21 @@ export const AuthProvider = ({ children }) => {
             const decodedUserToken = jwtDecode(userToken)
             setUser(decodedUserToken._doc ? decodedUserToken._doc : decodedUserToken)
         }
+
+        setLoading(false)
+
     }, []);
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
-            {children}
+            {
+                loading ?
+                    <div hidden={!loading} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+                        <span className="loading loading-spinner text-primary w-16 h-16"></span>
+                    </div>
+                    :
+                    <>{children}</>
+            }
         </AuthContext.Provider>
     );
 };

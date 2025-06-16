@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 export default function Home() {
 
-  const user = useAuth()
+  const { user } = useAuth()
 
   useEffect(() => {
     if (!user) redirect("/user/login")
