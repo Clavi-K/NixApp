@@ -1,7 +1,7 @@
 import { LogOut } from "lucide-react"
 
 export default function Navbar() {
-    return (<div className="navbar bg-navbar shadow-lg">
+    return (<div className="navbar bg-navbar shadow-lg nixNavbar">
         <div className="navbar-start">
             <h3 className="text-2xl text-secondary font-bold">Nix_</h3>
         </div>

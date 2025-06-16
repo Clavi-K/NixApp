@@ -2,6 +2,7 @@
 
 export const registerUser = async (user) => {
     try {
+        console.log(process.env.API_URL)
         const response = await fetch(`${process.env.API_URL}/user/register`, {
             method: "POST",
             headers: {

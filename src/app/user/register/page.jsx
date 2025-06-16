@@ -2,6 +2,7 @@
 
 import { registerUser } from "@/app/actions"
 import { useAuth } from "@/context/AuthContext"
+import Link from "next/link"
 import { useState } from "react"
 
 export default function Register() {
@@ -27,6 +28,12 @@ export default function Register() {
         const { id, value } = e.target
         setForm(prev => ({ ...prev, [id]: value }))
         setErrors(prev => ({ ...prev, [id]: id !== "password" ? "" : [] }))
+    }
+
+    const handleAlert = (alert) => {
+        setAlert(alert)
+        setTimeout(() => setAlert(prev => ({ ...prev, visible: false })), 3000)
+        setTimeout(() => setAlert({ msg: "", visible: false }), 3500)
     }
 
     const formValidation = () => {
@@ -86,9 +93,18 @@ export default function Register() {
             return
         }
 
-        setLoading(true)
+        // setLoading(true)
         const userRes = await registerUser(form)
         console.log(userRes)
+
+        if (userRes.accessToken) {
+            localStorage.setItem("nixAccessToken", userRes.accessToken)
+            const user = jwtDecode(accessToken)
+            setUser(user._doc ? user._doc : user)
+        } else if (userRes.error) {
+            handleAlert({ visible: true, msg: userRes.error })
+        }
+
         setLoading(false)
     }
 
@@ -130,9 +146,12 @@ export default function Register() {
                 <span className="label text-error" hidden={!errors.repeatPassword} >{errors.repeatPassword}</span>
             </fieldset>
 
+            <h5 className="text-xs text-neutral-content">Already have an account? <Link href="/user/login" className="link text-primary">Log in</Link></h5>
+
             <button className="btn btn-primary mt-4 w-70" type="submit">Register</button>
         </form>
-        <div className="alert alert-error mt-0 w-full max-w-xl fixed bottom-0 rounded-b-none" hidden={!alert.visible} >Alert test</div>
+        {/* <div className={`alert alert-error mt-0 w-full max-w-xl fixed bottom-0 rounded-b-none ${alert.visible ? "animate-slide-up" : "opacity-0"}`} hidden={!alert.visible} >{alert.msg}</div> */}
+        <div className={`alert alert-error mt-0 w-full max-w-xl fixed bottom-0 rounded-b-none duration-500 ease-out transition-all ${alert.visible ? "opacity-100" : "opacity-0"}`} >{alert.msg}</div>
         <div hidden={!loading} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
             <span className="loading loading-spinner text-primary w-16 h-16"></span>
         </div>

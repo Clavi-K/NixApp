@@ -14,4 +14,10 @@
   background-color: #05080F;
 }
 
+.nixNavbar {
+  @media (max-height: 900px) {
+    margin-botton: 20rem;
+  }
+}
+
 /* CUSTOM CSS */
