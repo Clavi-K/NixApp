@@ -29,7 +29,7 @@ export default function Navbar() {
          redirect("/user/login") */
     }
 
-    return (<div className="navbar bg-navbar shadow-lg ">
+    return (<div className="navbar bg-navbar shadow-lg h-20">
         <div className="navbar-start">
             <h3 className="text-2xl text-secondary font-bold">Nix_</h3>
         </div>

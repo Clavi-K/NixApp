@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import Sidebar from "@/components/Sidebar";
 
 export default function Home() {
 
@@ -14,7 +15,7 @@ export default function Home() {
 
   return (
     <div>
-
+      <Sidebar />
     </div>
   );
 }
