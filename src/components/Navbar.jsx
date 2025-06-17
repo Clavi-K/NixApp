@@ -31,7 +31,7 @@ export default function Navbar() {
 
     return (<div className="navbar bg-navbar shadow-lg h-20">
         <div className="navbar-start">
-            <h3 className="text-2xl text-secondary font-bold">Nix_</h3>
+            <h3 className="text-2xl text-primary font-bold">Nix_</h3>
         </div>
         <div className="navbar-center"></div>
 
