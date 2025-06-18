@@ -12,7 +12,7 @@ export default function Register() {
     const { user, setUser } = useAuth()
 
     useEffect(() => {
-        if (user) redirect("/")
+        if (user) redirect("/dashboard")
     }, [])
 
     const [alert, setAlert] = useState({
@@ -107,7 +107,7 @@ export default function Register() {
             const user = jwtDecode(userRes.accessToken)
             setUser(user._doc ? user._doc : user)
             setLoading(false)
-            redirect("/")
+            redirect("/dashboard")
         } else if (userRes.error) {
             setLoading(false)
             handleAlert({ visible: true, msg: userRes.error })

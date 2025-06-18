@@ -1,17 +1,18 @@
 "use client"
 
-export default function Modal(params) {
+export default function Modal({ title, text, actionBtnText, actionBtnCallback, modalClass, setModalClass }) {
 
 
     const handleCloseBtn = () => {
-        params.modalState.setModalClass("")
+        setModalClass("")
     }
 
-    return (<dialog id="modalTest" className={`modal ${params.modalState.modalClass}`}>
+    return (<dialog id="modalTest" className={`modal ${modalClass}`}>
         <div className="modal-box">
-            <h3 className="text-lg font-bold">Confirmation</h3>
-            <p className="py-4">Are you sure you want to log out?</p>
+            <h3 className="text-lg font-bold">{title}</h3>
+            <p className="py-4">{text}</p>
             <div className="modal-action">
+                <button className="btn btn-primary fixed left-6" onClick={actionBtnCallback}>{actionBtnText}</button>
                 <form method="dialog">
                     <button className="btn" onClick={handleCloseBtn}>Close</button>
                 </form>

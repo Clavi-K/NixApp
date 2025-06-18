@@ -12,7 +12,7 @@ export default function Login() {
     const { user, setUser } = useAuth()
 
     useEffect(() => {
-        if (user) redirect("/")
+        if (user) redirect("/dashboard")
     }, [])
 
     const [errors, setErrors] = useState({})
@@ -54,7 +54,7 @@ export default function Login() {
             localStorage.setItem("nixAccessToken", userRes.accessToken)
             const user = jwtDecode(userRes.accessToken)
             setUser(user._doc ? user._doc : user)
-            redirect("/")
+            redirect("/dashboard")
         } else if (userRes.error) {
 
             if (userRes.error.includes("password")) {

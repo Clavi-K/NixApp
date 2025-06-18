@@ -15,33 +15,39 @@ export default function Navbar() {
     const [modalClass, setModalClass] = useState("")
 
     const handleLogoutBtn = async () => {
-
         setModalClass("modal-open")
+    }
 
-        /*  const userToken = localStorage.getItem("nixAccessToken")
- 
-         if (userToken) {
-             await logoutUser(userToken)
-             localStorage.removeItem("nixAccessToken")
-             setUser(null)
-         }
- 
-         redirect("/user/login") */
+    const handleLogoutCallback = async () => {
+        const userToken = localStorage.getItem("nixAccessToken")
+
+        if (userToken) {
+            await logoutUser(userToken)
+            localStorage.removeItem("nixAccessToken")
+            setUser(null)
+        }
+
+        setModalClass("")
+        redirect("/user/login")
+    }
+
+    const handleHomeRedirect = () => {
+        if (user) redirect("/dashboard")
     }
 
     return (<div className="navbar bg-navbar shadow-lg h-20">
         <div className="navbar-start">
-            <h3 className="text-2xl text-primary font-bold">Nix_</h3>
+            <h3 className="text-2xl text-primary font-bold cursor-pointer transition-all transition-discrete hover:text-3xl" onClick={handleHomeRedirect}>Nix_</h3>
         </div>
         <div className="navbar-center"></div>
 
-        {/* <div className="navbar-end" hidden={!user}> */}
-        <div className="navbar-end" hidden={false}>
+        <div className="navbar-end" hidden={!user}>
+            {/* <div className="navbar-end" hidden={false}> */}
             <p className="mr-5 transition-all transition-discrete hover:text-primary">{user?.name}</p>
             <LogOut className="transition-all transition-discrete hover:text-error mr-3" onClick={handleLogoutBtn} />
         </div>
 
-        <Modal title="test" text="a" callback="" modalState={{ modalClass, setModalClass }} />
+        <Modal title="Confirmation" text="Do you want to log out?" actionBtnText="Log out" actionBtnCallback={handleLogoutCallback} modalClass={modalClass} setModalClass={setModalClass} />
 
     </div>)
 }
