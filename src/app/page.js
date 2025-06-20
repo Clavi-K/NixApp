@@ -1,13 +1,13 @@
 "use client"
 
-import { useAuth } from "@/context/AuthContext";
+import { useGlobal } from "@/context/GlobalContext";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import { pingUser } from "./actions";
 
 export default function Home() {
 
-  const { user } = useAuth()
+  const { user } = useGlobal()
   const userToken = localStorage.getItem("nixAccessToken")
 
   useEffect(() => {

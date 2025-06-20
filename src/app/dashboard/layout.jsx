@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 
 import { pingUser, logoutUser } from '../actions';
-import { useAuth } from '@/context/AuthContext';
+import { useGlobal } from '@/context/GlobalContext';
 
 import Sidebar from "@/components/Sidebar";
 
 export default function DashboardLayout({ children }) {
 
-    const { user, setUser } = useAuth()
+    const { user, setUser } = useGlobal()
     const userToken = localStorage.getItem("nixAccessToken")
 
     const [modalClass, setModalClass] = useState("")

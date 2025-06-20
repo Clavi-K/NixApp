@@ -2,7 +2,7 @@ import { Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import Navbar from "@/components/Navbar";
-import { AuthProvider } from '@/context/AuthContext';
+import { GlobalProvider } from '@/context/GlobalContext';
 
 
 const geistMono = Geist_Mono({
@@ -18,12 +18,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistMono.className}`}>
-        <AuthProvider>
+        <GlobalProvider>
           <Navbar />
           <div>
             {children}
           </div>
-        </AuthProvider>
+        </GlobalProvider>
       </body>
     </html >
   );

@@ -1,7 +1,7 @@
 "use client"
 
 import { loginUser } from "@/app/actions"
-import { useAuth } from "@/context/AuthContext"
+import { useGlobal } from "@/context/GlobalContext"
 import { redirect } from "next/navigation"
 import { useEffect, useState } from "react"
 import { jwtDecode } from "jwt-decode"
@@ -9,7 +9,7 @@ import Link from "next/link"
 
 export default function Login() {
 
-    const { user, setUser } = useAuth()
+    const { user, setUser } = useGlobal()
 
     useEffect(() => {
         if (user) redirect("/dashboard")

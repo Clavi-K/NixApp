@@ -105,3 +105,43 @@ export const getUserWallets = async (userToken) => {
     }
 
 }
+
+export const createWallet = async (userToken, wallet) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}/wallet`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+            body: JSON.stringify(wallet)
+        })
+
+        const jsonResponse = await response.json()
+        return jsonResponse
+
+    } catch (e) {
+        const errorMsg = e.response?.data || e
+        return { error: errorMsg.toString() }
+    }
+}
+
+export const getUserWallet = async (userToken, walletId) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}/wallet/${walletId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+        })
+
+        const jsonResponse = await response.json()
+        console.log(jsonResponse)
+        return jsonResponse
+
+    } catch (e) {
+        const errorMsg = e.response?.data || e
+        return { error: errorMsg.toString() }
+    }
+}

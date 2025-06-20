@@ -4,14 +4,14 @@ import { LogOut } from "lucide-react"
 
 import { logoutUser } from "@/app/actions"
 import { redirect } from "next/navigation"
-import { useAuth } from "@/context/AuthContext"
+import { useGlobal } from "@/context/GlobalContext"
 import { useState } from "react"
 
 import Modal from "./Modal"
 
 export default function Navbar() {
 
-    const { user, setUser } = useAuth()
+    const { user, setUser } = useGlobal()
     const [modalClass, setModalClass] = useState("")
 
     const handleLogoutBtn = async () => {

@@ -1,7 +1,7 @@
 "use client"
 
 import { registerUser } from "@/app/actions"
-import { useAuth } from "@/context/AuthContext"
+import { useGlobal } from "@/context/GlobalContext"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -9,7 +9,7 @@ import { jwtDecode } from "jwt-decode"
 
 export default function Register() {
 
-    const { user, setUser } = useAuth()
+    const { user, setUser, setError, setSuccess } = useGlobal()
 
     useEffect(() => {
         if (user) redirect("/dashboard")
@@ -107,16 +107,17 @@ export default function Register() {
             const user = jwtDecode(userRes.accessToken)
             setUser(user._doc ? user._doc : user)
             setLoading(false)
+            setSuccess("Registered successfully!")
             redirect("/dashboard")
         } else if (userRes.error) {
             setLoading(false)
-            handleAlert({ visible: true, msg: userRes.error })
+            setError(userRes.error)
         }
 
     }
 
     return (<div className="flex flex-col items-center justify-center min-h-screen bg-base-100">
-        <form className="bg-secondary-content p-8 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xl" onSubmit={handleFormSubmit}>
+        <form className="bg-secondary-content p-4 px-8 rounded-lg shadow-lg flex flex-col items-center w-full max-w-xl mt-20" onSubmit={handleFormSubmit}>
             <h3 className="text-2xl text-secondary font-bold">Register</h3>
             <div className="divider"></div>
             <fieldset className="fieldset w-full">
@@ -156,7 +157,6 @@ export default function Register() {
             <h5 className="text-xs text-neutral-content">Already have an account? <Link href="/user/login" className="link text-primary">Log in</Link></h5>
             <button className="btn btn-primary mt-4 w-70" type="submit">Register</button>
         </form>
-        <div className={`alert alert-error mt-0 w-full max-w-xl fixed bottom-0 rounded-b-none duration-500 ease-out transition-all ${alert.visible ? "opacity-100" : "opacity-0"}`} >{alert.msg}</div>
         <div hidden={!loading} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
             <span className="loading loading-spinner text-primary w-16 h-16"></span>
         </div>
