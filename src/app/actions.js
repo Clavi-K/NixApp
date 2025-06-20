@@ -62,10 +62,33 @@ export const logoutUser = async (userToken) => {
     }
 }
 
+export const pingUser = async (userToken) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}/user/ping`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+        })
+
+        if (response.status == 403) {
+            throw new Error("Forbidden")
+        } else {
+            return "Valid session"
+        }
+    } catch (e) {
+        console.error(e)
+
+        const errorMsg = e.response?.data || e
+        return { error: errorMsg.toString() }
+    }
+}
+
 export const getUserWallets = async (userToken) => {
 
     try {
-        const response = await fetch(`${process.env.API_URL}/user/login`, {
+        const response = await fetch(`${process.env.API_URL}/wallet`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -74,7 +97,7 @@ export const getUserWallets = async (userToken) => {
         })
 
         const jsonResponse = await response.json()
-        console.log(jsonResponse)
+        return jsonResponse
 
     } catch (e) {
         const errorMsg = e.response?.data || e

@@ -2,12 +2,11 @@
 
 export default function Modal({ title, text, actionBtnText, actionBtnCallback, modalClass, setModalClass }) {
 
-
     const handleCloseBtn = () => {
         setModalClass("")
     }
 
-    return (<dialog id="modalTest" className={`modal ${modalClass}`}>
+    return (<dialog id="modal" className={`modal ${modalClass}`}>
         <div className="modal-box">
             <h3 className="text-lg font-bold">{title}</h3>
             <p className="py-4">{text}</p>
