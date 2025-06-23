@@ -3,7 +3,6 @@
 import { useGlobal } from "@/context/GlobalContext";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
-import { pingUser } from "./actions";
 
 export default function Home() {
 

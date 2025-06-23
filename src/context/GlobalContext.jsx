@@ -11,6 +11,7 @@ export const GlobalProvider = ({ children }) => {
     const [user, setUser] = useState(null)
     const [error, setError] = useState("")
     const [success, setSuccess] = useState("")
+    const [wallets, setWallets] = useState([])
 
     const [loading, setLoading] = useState(true)
 
@@ -37,7 +38,7 @@ export const GlobalProvider = ({ children }) => {
     }, [error, success])
 
     return (
-        <GlobalContext.Provider value={{ user, setUser, setError, setSuccess }}>
+        <GlobalContext.Provider value={{ user, setUser, setError, setSuccess, wallets, setWallets }}>
             {
                 loading ?
                     <div hidden={!loading} className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">

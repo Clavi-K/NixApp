@@ -14,10 +14,18 @@
   background-color: #05080F;
 }
 
+.bg-content {
+  background-color: #2c3241;
+}
+
 .nixNavbar {
   @media (max-height: 900px) {
     margin-botton: 20rem;
   }
+}
+
+.activeWallet {
+  background-color: red;
 }
 
 /* CUSTOM CSS */

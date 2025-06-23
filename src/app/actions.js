@@ -128,7 +128,8 @@ export const createWallet = async (userToken, wallet) => {
 
 export const getUserWallet = async (userToken, walletId) => {
     try {
-        const response = await fetch(`${process.env.API_URL}/wallet/${walletId}`, {
+        console.log(`${process.env.API_URL}/wallet?id=${walletId}`)
+        const response = await fetch(`${process.env.API_URL}/wallet?id=${walletId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -137,7 +138,6 @@ export const getUserWallet = async (userToken, walletId) => {
         })
 
         const jsonResponse = await response.json()
-        console.log(jsonResponse)
         return jsonResponse
 
     } catch (e) {

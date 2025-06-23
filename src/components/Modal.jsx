@@ -13,7 +13,7 @@ export default function Modal({ title, text, actionBtnText, actionBtnCallback, m
             <div className="modal-action">
                 <button className="btn btn-primary fixed left-6" onClick={actionBtnCallback}>{actionBtnText}</button>
                 <form method="dialog">
-                    <button className="btn" onClick={handleCloseBtn}>Close</button>
+                    <button className="btn btn-soft btn-primary" onClick={handleCloseBtn}>Close</button>
                 </form>
             </div>
         </div>
