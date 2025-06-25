@@ -1,12 +1,13 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { CirclePlus } from "lucide-react"
+import { BanknoteArrowUp, ListPlus } from "lucide-react"
 import React, { useEffect, useState } from "react"
 
 import { useGlobal } from "@/context/GlobalContext"
-import { getUserWallet } from "@/app/actions"
+import { getUserWallet, getWalletCategories } from "@/app/actions"
 import NewTrxModal from "@/components/NewTrxModal"
+import NewCatModel from "@/components/NewCatModal"
 
 export default function Wallet({ params }) {
     const { walletId } = useParams()
@@ -16,17 +17,14 @@ export default function Wallet({ params }) {
 
     const [loading, setLoading] = useState(true)
     const [wallet, setWallet] = useState(null)
-    const [modalClass, setModalClass] = useState("")
-
-    const handleNewTrx = () => {
-        setModalClass("modal-open")
-    }
+    const [categories, setCategories] = useState([])
+    const [trxModalClass, setTrxModalClass] = useState("")
+    const [catModalClass, setCatModalClass] = useState("")
 
     useEffect(() => {
 
         getUserWallet(userToken, walletId)
             .then(r => {
-                console.log(r)
                 if (r.error) {
                     setError("Something went wrong looking for the wallet")
                     return
@@ -34,7 +32,26 @@ export default function Wallet({ params }) {
                 setWallet(r[0])
             })
             .finally(() => setLoading(false))
+
+        getWalletCategories(userToken, walletId)
+            .then(r => {
+                if (r.error) {
+                    setError("Something went wrong looking for the wallet categories")
+                    return
+                }
+                console.log(r)
+                setCategories(r)
+            })
     }, [])
+
+
+    const handleNewTrx = () => {
+        setTrxModalClass("modal-open")
+    }
+
+    const handleNewCat = () => {
+        setCatModalClass("modal-open")
+    }
 
     return (<div className="flex justify-start w-full h-full">
         {
@@ -44,8 +61,22 @@ export default function Wallet({ params }) {
                         <h1 className="text-3xl text-primary font-bold mb-2">{wallet.name}</h1>
                         <h1 className="text-xl text-content font-bold ml-5">${wallet.balance}</h1>
                     </div>
-                    <button className="btn btn-outline btn-primary rounded-xl mr-5" onClick={handleNewTrx}>New Transaction</button>
-                    <NewTrxModal modalClass={modalClass} setModalClass={setModalClass} />
+
+                    <div className="flex">
+                        <div className="tooltip tooltip-left" data-tip="New Category">
+                            <button className="btn btn-outline btn-primary rounded-xl mr-5 p-2" onClick={handleNewCat}>
+                                <ListPlus />
+                            </button>
+                        </div>
+
+                        <div className="tooltip tooltip-left" data-tip="New Transaction">
+                            <button className="btn btn-outline btn-primary rounded-xl mr-3 p-2" onClick={handleNewTrx}>
+                                <BanknoteArrowUp />
+                            </button>
+                        </div>
+                    </div>
+                    <NewTrxModal trxModalClass={trxModalClass} setTrxModalClass={setTrxModalClass} />
+                    <NewCatModel catModalClass={catModalClass} setCatModalClass={setCatModalClass} />
                 </div>
             ) : <></>
         }

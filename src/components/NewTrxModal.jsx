@@ -1,14 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-export default function NewTrxModal({ modalClass, setModalClass }) {
+export default function NewTrxModal({ trxModalClass, setTrxModalClass }) {
 
     const [trxType, setTrxType] = useState("")
     const [categories, setCategories] = useState([])
 
     const handleCloseBtn = () => {
-        setModalClass("")
+        setTrxModalClass("")
     }
 
     const handleFormSubmit = (e) => {
@@ -20,7 +20,7 @@ export default function NewTrxModal({ modalClass, setModalClass }) {
     }
 
     return (<>
-        <dialog className={`modal ${modalClass}`}>
+        <dialog className={`modal ${trxModalClass}`}>
             <div className="modal-box">
                 <h3 className="text-2xl text-primary font-bold">New Transaction</h3>
                 <div className="divider" />
@@ -42,8 +42,9 @@ export default function NewTrxModal({ modalClass, setModalClass }) {
                         <input type="number" name="amount" id="amount" className="input w-full text-lg" />
                     </fieldset>
                 </form>
-                <div className="modal-action">
-                    <form method="dialog"><button className="btn btn-soft btn-primary" onClick={handleCloseBtn}>Close</button></form>
+                <div className="modal-action flex justify-between">
+                    <button className="btn btn-primary">Create</button>
+                    <button className="btn btn-soft btn-primary" onClick={handleCloseBtn}>Close</button>
                 </div>
             </div>
         </dialog>

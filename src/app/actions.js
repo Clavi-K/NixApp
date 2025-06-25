@@ -2,7 +2,6 @@
 
 export const registerUser = async (user) => {
     try {
-        console.log(process.env.API_URL)
         const response = await fetch(`${process.env.API_URL}/user/register`, {
             method: "POST",
             headers: {
@@ -128,7 +127,6 @@ export const createWallet = async (userToken, wallet) => {
 
 export const getUserWallet = async (userToken, walletId) => {
     try {
-        console.log(`${process.env.API_URL}/wallet?id=${walletId}`)
         const response = await fetch(`${process.env.API_URL}/wallet?id=${walletId}`, {
             method: "GET",
             headers: {
@@ -138,6 +136,26 @@ export const getUserWallet = async (userToken, walletId) => {
         })
 
         const jsonResponse = await response.json()
+        return jsonResponse
+
+    } catch (e) {
+        const errorMsg = e.response?.data || e
+        return { error: errorMsg.toString() }
+    }
+}
+
+export const getWalletCategories = async (userToken, walletId) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}/category?walletId=${walletId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+        })
+
+        const jsonResponse = await response.json()
+        console.log(jsonResponse)
         return jsonResponse
 
     } catch (e) {
