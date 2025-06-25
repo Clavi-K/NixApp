@@ -13,7 +13,7 @@ export default function Wallet({ params }) {
     const { walletId } = useParams()
 
     const userToken = localStorage.getItem("nixAccessToken")
-    const { setError } = useGlobal({})
+    const { setError, user } = useGlobal({})
 
     const [loading, setLoading] = useState(true)
     const [wallet, setWallet] = useState(null)
@@ -76,7 +76,7 @@ export default function Wallet({ params }) {
                         </div>
                     </div>
                     <NewTrxModal trxModalClass={trxModalClass} setTrxModalClass={setTrxModalClass} />
-                    <NewCatModel catModalClass={catModalClass} setCatModalClass={setCatModalClass} />
+                    <NewCatModel catModalClass={catModalClass} setCatModalClass={setCatModalClass} user={user} walletId={walletId} />
                 </div>
             ) : <></>
         }
