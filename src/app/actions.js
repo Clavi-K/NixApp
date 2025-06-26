@@ -155,7 +155,6 @@ export const getWalletCategories = async (userToken, walletId) => {
         })
 
         const jsonResponse = await response.json()
-        console.log(jsonResponse)
         return jsonResponse
 
     } catch (e) {

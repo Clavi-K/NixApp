@@ -46,8 +46,7 @@ export default function NewCatModel({ catModalClass, setCatModalClass, user, wal
 
                 <fieldset className="fieldset w-full flex">
                     <legend className="fieldset-legend text-secondary">Icon</legend>
-                    <input type="text" name="icon" id="icon" className="input w-full rounded-r-none" />
-                    <button className="btn btn-primary rounded-l-none">test</button>
+                    <input type="text" name="icon" id="icon" className="input w-full rounded-r-none" placeholder="Choose icon from below" />
                 </fieldset>
             </form>
 

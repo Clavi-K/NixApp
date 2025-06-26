@@ -39,7 +39,6 @@ export default function Wallet({ params }) {
                     setError("Something went wrong looking for the wallet categories")
                     return
                 }
-                console.log(r)
                 setCategories(r)
             })
     }, [])
