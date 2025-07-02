@@ -82,8 +82,8 @@ export default function NewCatModel({ catModalClass, setCatModalClass, setCatego
 
         if (!categoryRes.error) {
             setSuccess("Category successfully created!")
-            setCategories(prev => ({ ...prev, categoryRes }))
-            
+            setCategories(prev => ([...prev, categoryRes]))
+
             setNewCategory({
                 userId: user._id,
                 walletId,
@@ -135,9 +135,6 @@ export default function NewCatModel({ catModalClass, setCatModalClass, setCatego
 
                 <fieldset className="fieldset w-full flex flex-col">
                     <legend className="fieldset-legend text-secondary">Icon</legend>
-<<<<<<< Updated upstream
-                    <input type="text" name="icon" id="icon" className="input w-full rounded-r-none" placeholder="Choose icon from below" />
-=======
                     <input type="text" name="icon" id="icon" className="input w-full" placeholder="Search the icon here" onChange={handleSearchFieldChange} value={categoryFilter} />
                     <span className="label text-error" hidden={!errors.icon}>{errors.icon}</span>
 
@@ -157,7 +154,6 @@ export default function NewCatModel({ catModalClass, setCatModalClass, setCatego
 
 
                     </div>
->>>>>>> Stashed changes
                 </fieldset>
             </form>
 

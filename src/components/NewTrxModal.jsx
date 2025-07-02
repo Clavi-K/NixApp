@@ -2,9 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-export default function NewTrxModal({ trxModalClass, setTrxModalClass }) {
-
-    const [categories, setCategories] = useState([])
+export default function NewTrxModal({ trxModalClass, setTrxModalClass, categories }) {
 
     const handleCloseBtn = () => {
         setTrxModalClass("")
@@ -24,6 +22,15 @@ export default function NewTrxModal({ trxModalClass, setTrxModalClass }) {
 
                     <fieldset className="fieldset w-full">
                         <legend className="fieldset-legend text-secondary">Transaction category</legend>
+                        <div className="categoryContainer">
+                            <ul className="list rounded-box rounded-lg overflow-auto w-full h-40">
+                                {
+                                    categories.map(c => {
+                                        return (<h1>{c.name}</h1>)
+                                    })
+                                }
+                            </ul>
+                        </div>
                     </fieldset>
 
                     <fieldset className="fieldset w-full">
