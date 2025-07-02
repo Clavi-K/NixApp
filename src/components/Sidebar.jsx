@@ -28,7 +28,6 @@ export default function Sidebar() {
 
     const handleWalletClick = (e) => {
         e.preventDefault()
-        console.log("break")
         let itemId = e.currentTarget.id
         if (activeItem !== itemId) {
             if (activeItem !== "") {

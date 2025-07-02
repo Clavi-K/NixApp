@@ -70,7 +70,7 @@ export const pingUser = async (userToken) => {
                 "Authorization": `Bearer ${userToken}`
             },
         })
-
+        console.log("RESPONSE STATUS ", response.status)
         if (response.status == 403) {
             throw new Error("Forbidden")
         } else {
@@ -133,6 +133,46 @@ export const getUserWallet = async (userToken, walletId) => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${userToken}`
             },
+        })
+
+        const jsonResponse = await response.json()
+        return jsonResponse
+
+    } catch (e) {
+        const errorMsg = e.response?.data || e
+        return { error: errorMsg.toString() }
+    }
+}
+
+export const updateUserWallet = async (userToken, wallet) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}/wallet`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+            body: JSON.stringify(wallet)
+        })
+        
+        const jsonResponse = await response.json()
+        return jsonResponse
+
+    } catch (e) {
+        const errorMsg = e.response?.data || e
+        return { error: errorMsg.toString() }
+    }
+}
+
+export const createWalletCategory = async (userToken, category) => {
+    try {
+        const response = await fetch(`${process.env.API_URL}/category`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${userToken}`
+            },
+            body: JSON.stringify(category)
         })
 
         const jsonResponse = await response.json()

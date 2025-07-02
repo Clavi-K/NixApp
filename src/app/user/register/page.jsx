@@ -36,12 +36,6 @@ export default function Register() {
         setErrors(prev => ({ ...prev, [id]: id !== "password" ? "" : [] }))
     }
 
-    const handleAlert = (alert) => {
-        setAlert(alert)
-        setTimeout(() => setAlert(prev => ({ ...prev, visible: false })), 3000)
-        setTimeout(() => setAlert({ msg: "", visible: false }), 3500)
-    }
-
     const formValidation = () => {
         const newErrors = {}
         const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
