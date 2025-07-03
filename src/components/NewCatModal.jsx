@@ -120,7 +120,7 @@ export default function NewCatModel({ catModalClass, setCatModalClass, setCatego
             <form className="flex flex-col">
                 <fieldset className="fieldset w-full">
                     <legend className="fieldset-legend text-secondary">Category name</legend>
-                    <input type="text" name="name" id="name" className="input w-full" onChange={handleCatNameChange} value={newCategory.value} />
+                    <input type="text" name="name" id="name" className="input w-full" onChange={handleCatNameChange} value={newCategory.name} />
                     <span className="label text-error" hidden={!errors.name}>{errors.name}</span>
                 </fieldset>
 

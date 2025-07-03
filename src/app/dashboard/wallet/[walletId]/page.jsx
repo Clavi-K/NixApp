@@ -125,7 +125,7 @@ export default function Wallet() {
                             </button>
                         </div>
                     </div>
-                    <NewTrxModal trxModalClass={trxModalClass} setTrxModalClass={setTrxModalClass} categories={categories} />
+                    <NewTrxModal trxModalClass={trxModalClass} setTrxModalClass={setTrxModalClass} categories={categories} user={user} userToken={userToken} walletId={walletId} />
                     <NewCatModel catModalClass={catModalClass} setCatModalClass={setCatModalClass} setCategories={setCategories} user={user} userToken={userToken} walletId={walletId} />
                 </div>
             ) : <></>
